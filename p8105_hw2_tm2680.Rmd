@@ -1,0 +1,12 @@
+---
+title: "p8105_hw2_tm2680"
+author: "Tatini Mal-Sarkar"
+date: "9/25/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
