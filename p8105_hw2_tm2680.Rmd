@@ -31,10 +31,25 @@ transit_data =
 `r nrow(distinct(filter(transit_data, route_name == "A"), line, station_name))` distinct stations serve the A train. Of these stations, `r nrow(distinct(filter(transit_data, route_name == "A", ada == TRUE), line, station_name))` are ADA-compliant. 
 
 # Problem 2
-```{r import_trash}
+```{r import_trash_mr}
 trash_data_mr = read_excel("data/HealthyHarborWaterWheelTotals2017-9-26.xlsx", sheet = "Mr. Trash Wheel", range = cell_cols("A:N")) %>% 
   janitor::clean_names() %>% 
   drop_na(dumpster) %>% 
   mutate(sports_balls = as.integer(round(sports_balls, 0)))
 ```
+
+```{r import_trash_2017}
+trash_data_2017 = read_excel("data/HealthyHarborWaterWheelTotals2017-9-26.xlsx", sheet = "2017 Precipitation", skip = 1) %>% 
+  janitor::clean_names() %>% 
+  drop_na(total) %>% 
+  mutate(year = 2017)
+```
+
+```{r import_trash_2016}
+trash_data_2016 = read_excel("data/HealthyHarborWaterWheelTotals2017-9-26.xlsx", sheet = "2016 Precipitation", skip = 1) %>% 
+  janitor::clean_names() %>% 
+  drop_na(total) %>% 
+  mutate(year = 2016)
+```
+
 
