@@ -8,6 +8,7 @@ output: github_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+library(readxl)
 ```
 
 # Problem 1
@@ -18,13 +19,22 @@ transit_data = read_csv(file = "./data/NYC_Transit_Subway_Entrance_And_Exit_Data
   mutate(entry = ifelse(entry == "YES", TRUE, FALSE))
 ```
 
-This dataset `transit_data` contains variables pertaining to the subway, station name, station latitude and longitude, routes, entry, vending, entrance type, and ADA compliance. So far, I have cleaned the variable names, chosen the aforementioned variables, and transformed the character variable `entry` to a logical variable. The dataset `transit_data` contains `r nrow(transit_data)` rows and `r ncol(transit_data)` columns.
+This dataset `transit_data` contains variables pertaining to the subway, station name, station latitude and longitude, routes, entry, vending, entrance type, and ADA compliance. So far, I have cleaned the variable names, chosen the aforementioned variables, and transformed the character variable `entry` to a logical variable. The dataset `transit_data` contains `r nrow(transit_data)` rows and `r ncol(transit_data)` columns. Before gathering, this dataset is not tidy.
 
 There are `r nrow(distinct(transit_data, line, station_name))` distinct stations. There are `r nrow(distinct(filter(transit_data, ada == TRUE), line, station_name))` ADA-compliant stations. `r summarize(transit_data, mean(entry[vending == "NO"]))` of station entrances without vending allow entrance.
 
 ```{r reformat_transit}
 transit_data =
-  gather(transit_data, `route1`, `route2`, `route3`, `route4`, `route5`, `route6`, `route7`, `route8`,`route9`, `route10`, `route11`, key = "route_number", value = "route_name") 
+  gather(transit_data, route1:route11, key = "route_number", value = "route_name") 
 ```
 
 `r nrow(distinct(filter(transit_data, route_name == "A"), line, station_name))` distinct stations serve the A train. Of these stations, `r nrow(distinct(filter(transit_data, route_name == "A", ada == TRUE), line, station_name))` are ADA-compliant. 
+
+# Problem 2
+```{r import_trash}
+trash_data_mr = read_excel("data/HealthyHarborWaterWheelTotals2017-9-26.xlsx", sheet = "Mr. Trash Wheel", range = cell_cols("A:N")) %>% 
+  janitor::clean_names() %>% 
+  drop_na(dumpster) %>% 
+  mutate(sports_balls = as.integer(round(sports_balls, 0)))
+```
+
