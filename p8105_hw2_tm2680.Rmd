@@ -74,4 +74,6 @@ brfss_data = brfss_smart2010 %>%
 ```
 
 There are `r nrow(distinct(brfss_data, locationdesc))` unique locations in the dataset `brfss_data`. Because `r nrow(distinct(brfss_data, locationabbr))` states/provinces are represented, every state and Washington, D.C. are represented. 
-`r return(brfss_data$locationabbr, table(brfss_data$locationabbr) == max(table(brfss_data$locationabbr)))` is the state most observed.
+`r brfss_data$locationabbr[max(table(brfss_data$locationabbr))]` is the state most observed.
+
+The median of the Excellent response value is `r median(brfss_data$Excellent[brfss_data$year == 2002])`.
