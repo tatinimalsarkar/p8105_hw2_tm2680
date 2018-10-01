@@ -66,6 +66,10 @@ Datasets `trash_data_mr` and `trash_data_16_17` describe data collected from the
 ```{r load_brfss}
 library(p8105.datasets)
 brfss_data = brfss_smart2010 %>% 
-  janitor::clean_names()
+  janitor::clean_names() %>% 
+  filter(topic == "Overall Health") %>% 
+  select(-class, -topic, -question, -sample_size, -confidence_limit_low:-geo_location) %>% 
+  spread(response, data_value) %>% 
+  mutate(prop_exc_good = Excellent + Good)
 ```
 
