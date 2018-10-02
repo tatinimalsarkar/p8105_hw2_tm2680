@@ -71,25 +71,26 @@ brfss_data = brfss_smart2010 %>%
   filter(topic == "Overall Health") %>% 
   select(-class, -topic, -question, -sample_size, -confidence_limit_low:-geo_location) %>% 
   spread(response, data_value) %>% 
-  mutate(prop_exc_good = Excellent + Very good)
+  janitor::clean_names() %>% 
+  mutate(prop_exc_good = excellent + very_good)
 ```
 
 There are `r nrow(distinct(brfss_data, locationdesc))` unique locations in the dataset `brfss_data`. Because `r nrow(distinct(brfss_data, locationabbr))` states/provinces are represented, every state and Washington, D.C. are represented. 
 `r brfss_data$locationabbr[max(table(brfss_data$locationabbr))]` is the state most observed.
 
-The median of the Excellent response value is `r median(brfss_data$Excellent[brfss_data$year == 2002], na.rm = TRUE)`.
+The median of the Excellent response value is `r median(brfss_data$excellent[brfss_data$year == 2002], na.rm = TRUE)`.
 
 ```{r exc_2002_hist}
 brfss_data %>% 
   filter(year == 2002) %>% 
-  ggplot(aes(x = Excellent)) +
+  ggplot(aes(x = excellent)) +
   geom_histogram()
 ```
 
 ```{r exc_scatter}
 brfss_data %>% 
   filter(locationdesc == "NY - New York County" | locationdesc == "NY - Queens County") %>% 
-  ggplot(aes(x = year, y = Excellent)) +
+  ggplot(aes(x = year, y = excellent)) +
   geom_point(aes(color = locationdesc))
 ```
 
