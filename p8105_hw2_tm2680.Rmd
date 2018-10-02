@@ -71,7 +71,7 @@ brfss_data = brfss_smart2010 %>%
   filter(topic == "Overall Health") %>% 
   select(-class, -topic, -question, -sample_size, -confidence_limit_low:-geo_location) %>% 
   spread(response, data_value) %>% 
-  mutate(prop_exc_good = Excellent + Good)
+  mutate(prop_exc_good = Excellent + Very good)
 ```
 
 There are `r nrow(distinct(brfss_data, locationdesc))` unique locations in the dataset `brfss_data`. Because `r nrow(distinct(brfss_data, locationabbr))` states/provinces are represented, every state and Washington, D.C. are represented. 
