@@ -11,6 +11,11 @@ library(tidyverse)
 library(readxl)
 devtools::install_github("p8105/p8105.datasets")
 library(ggridges)
+
+mode = function(vec) {
+  uniq_vec = unique(vec)
+  uniq_vec[which.max(tabulate(match(vec, uniq_vec)))]
+}
 ```
 
 # Problem 1
@@ -75,8 +80,10 @@ brfss_data = brfss_smart2010 %>%
   mutate(prop_exc_vgood = (excellent + very_good) / 100)
 ```
 
+
 There are `r nrow(distinct(brfss_data, locationdesc))` unique locations in the dataset `brfss_data`. Because `r nrow(distinct(brfss_data, locationabbr))` states/provinces are represented, every state and Washington, D.C. are represented. 
-`r brfss_data$locationabbr[max(table(brfss_data$locationabbr))]` is the state most observed.
+
+`r mode(pull(brfss_data, 2))` is the state most observed.
 
 The median of the Excellent response value is `r median(brfss_data$excellent[brfss_data$year == 2002], na.rm = TRUE)`.
 
