@@ -46,7 +46,7 @@ trash_data_mr = read_excel("data/HealthyHarborWaterWheelTotals2017-9-26.xlsx", s
 ```
 
 ```{r import_trash_2017}
-trash_data_2017 = read_excel("data/HealthyHarborWaterWheelTotals2017-9-26.xlsx", sheet = "2017 Precipitation", skip = 1) %>% 
+trash_data_2017 = read_excel("data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = "2017 Precipitation", skip = 1) %>% 
   janitor::clean_names() %>% 
   drop_na(total) %>% 
   drop_na(month) %>% 
